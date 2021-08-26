@@ -1,15 +1,15 @@
 .movies-list {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: flex-start;
 }
 
 .movies-list > .items {
-  width: 20%;
+  margin: auto;
 }
 
 .expanded-movie-item {
-  width: 80%;
   display: flex;
   flex-direction: row;
 }
@@ -18,13 +18,19 @@
   display: inline;
 }
 
-.expanded-movie-item  > .description {
+.expanded-movie-item > .description {
   display: flex;
   flex-direction: column;
 }
 
 .movie-list-item {
+  margin-bottom: 10px;
+  transition: transform 450ms;
+}
+
+.movie-list-item:hover {
   cursor: pointer;
+  transform: scale(1.08);
 }
 
 .movie-list-item.selected {
