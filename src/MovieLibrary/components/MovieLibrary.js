@@ -29,7 +29,7 @@ class MovieLibrary extends Component {
           <h1 className="ML-title">Movies</h1>
         </header>
         <div className="ML-intro">
-          { movies.length && <MoviesList movies={movies}/> }
+          {!!movies.length && <MoviesList movies={movies} />}
         </div>
       </div>
     );
