@@ -1,32 +1,33 @@
-import React, { useState, Component } from "react";
+import React, { useState, useEffect, Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Modal from "../components/Modal";
 import TMDBImage from "./TMDBImage";
+import { sortMovies } from "../utils";
 import "./MoviesList.css";
 
 const MoviesList = ({ movies }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [sortedMovies, setSortedMovies] = useState([...movies]);
+  const [sortingType, setSortingType] = useState();
 
-  const handleSelectMovie = (item) => {
-    setSelectedMovie(item);
-  };
-
-  const handleSortingChange = (sortingType) => console.log(sortingType);
+  useEffect(() => {
+    setSortedMovies(sortMovies(movies, sortingType));
+  }, [sortingType, movies]);
 
   return (
     <div className="movies-list">
       <div className="items">
         <div>
           <span>Sort by:</span>
-          <SortingOptions onChange={handleSortingChange} />
+          <SortingOptions onChange={setSortingType} />
         </div>
-        {movies.map((movie) => (
+        {sortedMovies.map((movie) => (
           <MovieListItem
             key={movie.id}
             movie={movie}
             isSelected={selectedMovie === movie}
-            onSelect={handleSelectMovie}
+            onSelect={setSelectedMovie}
           />
         ))}
       </div>
