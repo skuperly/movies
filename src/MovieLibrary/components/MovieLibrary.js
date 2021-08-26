@@ -1,27 +1,27 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {fetchTopRatedMovies} from '../store/actions'
+import { fetchNowPlayingMovies } from "../store/actions";
 
-
-import logo from './logo.svg'
-import './MovieLibrary.css'
-import {getMovies} from '../store/selectors'
-import MoviesList from './MoviesList'
+import logo from "./logo.svg";
+import "./MovieLibrary.css";
+import { getMovies, getMoviesIsLoading } from "../store/selectors";
+import MoviesList from "./MoviesList";
 
 class MovieLibrary extends Component {
-
   static propTypes = {
-
-  }
+    movies: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fetchNowPlayingMovies: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
+  };
 
   componentDidMount() {
-    const {fetchTopRatedMovies} = this.props
-    fetchTopRatedMovies()
+    const { fetchNowPlayingMovies } = this.props;
+    fetchNowPlayingMovies();
   }
 
   render() {
-    const {movies} = this.props
+    const { movies, isLoading } = this.props;
     return (
       <div className="MovieLibrary">
         <header className="ML-header">
@@ -31,11 +31,16 @@ class MovieLibrary extends Component {
         <div className="ML-intro">
           {!!movies.length && <MoviesList movies={movies} />}
         </div>
+        {isLoading && "Loading..."}
       </div>
     );
   }
 }
 
-export default connect(state => ({
-  movies: getMovies(state)
-}), {fetchTopRatedMovies})(MovieLibrary)
+export default connect(
+  (state) => ({
+    movies: getMovies(state),
+    isLoading: getMoviesIsLoading(state),
+  }),
+  { fetchNowPlayingMovies }
+)(MovieLibrary);
